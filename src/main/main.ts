@@ -17,6 +17,7 @@ import log from 'electron-log';
 import sqlite from 'sqlite3';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+import loadDll from './server';
 
 export default class AppUpdater {
   constructor() {
@@ -113,6 +114,12 @@ const createWindow = async () => {
     });
 
     db.close();
+
+    const lib = loadDll(getAssetPath('addons/koffi.dll'));
+    const func_1 = lib.func('func_1', 'int', []);
+    const func_2 = lib.func('func_2', 'int', ['int']);
+    mainWindow.webContents.send('ipc-value', func_1());
+    mainWindow.webContents.send('ipc-value', func_2(10));
   });
 
   mainWindow.on('closed', () => {

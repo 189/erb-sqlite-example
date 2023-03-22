@@ -22,5 +22,9 @@ contextBridge.exposeInMainWorld('electron', {
     onIPCMessage(callback) {
       ipcRenderer.on('ipc-message', callback);
     },
+
+    onIPCValue(callback) {
+      ipcRenderer.on('ipc-value', callback);
+    },
   },
 });
